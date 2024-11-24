@@ -38,7 +38,7 @@ def get_all_sentences(ds, lang):
 
         
 def get_dataset(config):
-    ds_raw = load_dataset(config['dataset_name'], f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
+    ds_raw = load_dataset(config['dataset_name'], f'{config["lang_src"]}-{config["lang_tgt"]}', split='test')
     
     # build tokenizers
     tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
