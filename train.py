@@ -39,6 +39,10 @@ def get_all_sentences(ds, lang):
         
 def get_dataset(config):
     ds_raw = load_dataset(config['dataset_name'], f'{config["lang_src"]}-{config["lang_tgt"]}', split='test')
+    # ds_raw = load_dataset(config['dataset_name'], f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')   # <-- not 'test'
+
+
+    # ds_raw = load_dataset("opus100", "zh-en", split='train')
     
     # build tokenizers
     tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
@@ -126,6 +130,8 @@ def train_model(config):
         model.train()
         batch_iterator = tqdm(train_loader, desc=f"Processing epoch {epoch:02d}")
         for batch in batch_iterator:
+            # if global_step >= 10:
+            #      break
             encoder_input = batch['encoder_input'].to(device).long() # (batch_size, seq_len)
             decoder_input = batch['decoder_input'].to(device).long() # (batch_size, seq_len)
             encoder_mask = batch['encoder_mask'].to(device) # (batch_size, 1, 1, seq_len)
@@ -260,7 +266,3 @@ if __name__ == '__main__':
     warnings.filterwarnings('ignore')
     config = config()
     train_model(config)
-    
-    
-    
-
